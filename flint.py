@@ -2,7 +2,7 @@ import os
 import subprocess
 from tabulate import tabulate
 
-GIT_DIR = "/home/biganon/tipee/develop"
+GIT_DIR = "/home/biganon/tipee/bael"
 WT_DIR = os.path.join(GIT_DIR, ".git", "worktrees")
 WT_TO_IGNORE = ("migrations",)
 DOCKER_PS_OUTPUT = subprocess.run(("docker", "ps"), capture_output = True, text = True).stdout
@@ -46,7 +46,7 @@ for worktree_name in worktrees:
 
 # Affichage
 table = []
-for worktree_name in sorted(worktrees):
+for worktree_name in sorted(worktrees, key=lambda x: worktrees[x]["ports"]["tipee"]["port"]):
     worktree_data = worktrees[worktree_name]
     used_ports = len([p for p in worktree_data["ports"].values() if p["found"]])
     if used_ports == len(worktree_data["ports"]):
